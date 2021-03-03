@@ -1,0 +1,56 @@
+@model IEnumerable<login.Models.Book>
+@{
+    ViewData["title"] = "Logado";
+}
+
+
+<button class="btn btn-outline-primary btn-sm float-right"><a asp-controller="Book" asp-action="AddBook">Add a
+        Book</a></button>
+
+<h1 style="text-align: center;">Livros</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col" style="float: right;">Already ready?</th>
+    </tr>
+  </thead>
+  <tbody>
+
+@foreach (var book in Model)
+{
+    <tr>
+
+    <td>@Html.DisplayFor(modelItem => book.Name)</td>
+    <td >@Html.CheckBoxFor(modelItem => book.IsRead, new { Id = book.Id, UserId = book.UserId, NameBook = book.Name, @class = "toggle", data_url = Url.Action("ReadBook", "Book"), style = "float: right;"})</td>
+    </tr>
+
+}
+  </tbody>
+</table>
+
+
+@section scripts {
+    <script>
+        $(function() {
+            $('.toggle').change(function() {
+                var self = $(this);
+                var url = self.data('url');
+                var id = self.attr('id');
+                var namebook = self.attr('namebook');
+                var userid = self.attr('userid');
+                var value = self.prop('checked');
+
+                $.ajax({
+                    url: url,
+                    data: { id: id, name: namebook, userid: userid },
+                    type: 'POST',
+                    success: function(response) {
+                        alert("Livro Lido");
+                    }
+                });
+            });
+        });
+    </script>
+}

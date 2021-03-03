@@ -1,0 +1,15 @@
+@model login.Models.Book
+@{
+    ViewData["title"] = "Create";
+}
+
+
+<form asp-action="AddBook">
+    <div class="form-group">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <label for="Name">Name</label>
+        <input type="text" asp-for="Name" class="form-control" id="Name" placeholder="Enter Name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
